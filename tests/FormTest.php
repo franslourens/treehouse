@@ -1,20 +1,26 @@
 <?php declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 
-require_once dirname(dirname(__FILE__)) . '/sql.class.php'; #works fine.
-require_once dirname(dirname(__FILE__)) . '/submission.class.php'; #works fine.
+require_once dirname(dirname(__FILE__)) . '/sql.class.php';
+require_once dirname(dirname(__FILE__)) . '/form.class.php';
+require_once dirname(dirname(__FILE__)) . '/submission.class.php';
 
 final class FormTest extends TestCase
 {
+  private $form;
+
   public function setUp(): void
-     {
+  {
+        $stub = $this->getMockForAbstractClass('Form');
+        $this->form = $stub;
+
          $s = new Submission(array(
              'name' => "test",
              'email' => "test@test.com"
          ));
 
          $s->save();
-     }
+   }
 
     public function testListSubmissions(): void
     {
@@ -43,5 +49,13 @@ final class FormTest extends TestCase
        ));
 
        $this->assertEquals($s->save(), $result);
+     }
+
+     public function testEmail() {
+       $this->form->expects($this->once())
+         ->method('is_email')
+         ->will($this->returnValue(false));
+
+       $this->assertEquals(false, $this->form->is_email("frans"));
      }
 }

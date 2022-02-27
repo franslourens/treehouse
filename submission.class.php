@@ -32,6 +32,11 @@ class Submission extends MySQL {
   }
 
   public function save() {
+
+    if(!$this->name || !$this->email) {
+      throw new BadMethodCallException("Please supply all parameters.");
+    }
+
     try {
   	   parent::store($this->serialize());
     } catch (Exception $e) {

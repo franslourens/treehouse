@@ -71,7 +71,7 @@ hr {
       $validation["rules"] = array("name" => "required", "email" => array("required" => true, "email" => true));
       $validation["messages"] = array("name" => "name required", "email" => "email required");
 
-      $f = new Form("newsletter","post","", $validation, false);
+      $f = new Form("newsletter","post","", $validation, true);
 
       if($_REQUEST) {
         $email = $_REQUEST['email'];

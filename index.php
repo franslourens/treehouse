@@ -80,7 +80,7 @@ hr {
         if($f->errors()) {
           echo $f->errors();
         } else {
-          echo $email . "<a onclick=\"location.href='/list.php'\">added</a> successfully.";
+          echo $email . "<a onclick=\"location.href='/list.php'\"> added</a> successfully.";
         }
       }
      ?>

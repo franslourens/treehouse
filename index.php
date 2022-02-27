@@ -1,4 +1,5 @@
 <?php
+  // TODO index.php should never be in the same place as your other files, move into public directory seperate from rest of the app 
   require_once("form.class.php");
 ?>
 <!DOCTYPE html>

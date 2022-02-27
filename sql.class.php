@@ -32,17 +32,16 @@ class MySQL {
 
       $columns = implode(",", array_keys($data));
 
-  		$q = "INSERT INTO $table (" . $columns . ") VALUES (" . implode(",", $values) . ")";
+      $q = "INSERT INTO $table (" . $columns . ") VALUES (" . implode(",", $values) . ")";
 
-  		$this->sql->query($q);
+      $this->sql->query($q);
 
-
-  		if ($this->sql->affected_rows == 1) {
-          $this->sql->close();
-      		unset($this->sql);
-  		} else {
-        throw new Exception("Could not save to database: " . $this->sql->error);
-  		}
+      if ($this->sql->affected_rows == 1) {
+	$this->sql->close();
+	unset($this->sql);
+      } else {
+	throw new Exception("Could not save to database: " . $this->sql->error);
+      }
 
       return true;
   }

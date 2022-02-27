@@ -8,5 +8,5 @@ CREATE TABLE `newsletter` (
    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
    PRIMARY KEY (`id`),
    UNIQUE KEY `email_UNIQUE` (`email`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 ```

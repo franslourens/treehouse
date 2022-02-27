@@ -2,17 +2,19 @@
 
 abstract class Validation {
 
-  protected function notEmpty($value, $param) {
-    if($value != "" && $value !== 0 && strlen($value) >= $param) {
+  protected function is_required($value) {
+    if($value != "" && $value !== 0) {
        return true;
     }
 
     return false;
   }
 
-  protected function email($value){
+  protected function is_email($value) {
 
-    if(!preg_match('|^[_a-z0-9.-]*[a-z0-9]@[_a-z0-9.-]*[a-z0-9].[a-z]{2,3}$|e', $value))
+    $regex = "/^([a-zA-Z0-9\.]+@+[a-zA-Z]+(\.)+[a-zA-Z]{2,3})$/";
+
+    if(!preg_match($regex, $value))
     {
       return false;
     }

@@ -15,12 +15,14 @@ class Form extends Validation  {
 	private $elements;
 	private $html;
 	private $validation;
+	private $js;
 	private $errors;
 
-	public function __construct($name= "", $method = "post", $action = "", $validation = array()) {
+	public function __construct($name= "", $method = "post", $action = "", $validation = array(), $js = false) {
 		$this->name = $name;
 		$this->action = $action;
 		$this->validation = $validation;
+		$this->js = $js;
 
 		if(trim(strtolower($method)) == "post" || trim(strtolower($method)) == "get") {
 			$this->method = trim(strtolower($method));
@@ -30,7 +32,39 @@ class Form extends Validation  {
 
 	}
 
-	public function add($element){
+	public function validate() {
+			$validation = $this->validation["rules"];
+
+			$rules = array();
+
+			foreach ($validation as $key => $rule)
+			{
+				if(is_array($rule)) {
+					foreach($rule as $k => $v) {
+						$rules[$key] = $k;
+					}
+				} else {
+					$rules[$key] = $rule;
+				}
+			}
+
+			foreach ($rules as $key => $rule) {
+		 		$valid = call_user_func_array(array($this, 'is_'. $rule), array($_REQUEST[$key]));
+
+				if(!$valid) {
+					$this->errors[] = "Please enter a valid " . $key;
+				}
+
+			}
+
+			if($this->errors) {
+				return false;
+			}
+
+			return true;
+	}
+
+  public function add($element){
 		$this->elements[$element->id] = $element;
 	}
 
@@ -69,6 +103,10 @@ class Form extends Validation  {
 	}
 
 	public function errors() {
+		if(is_array($this->errors)) {
+			return implode(", ", $this->errors);
+		}
+
 		return $this->errors;
 	}
 
@@ -77,7 +115,7 @@ class Form extends Validation  {
 		$start = '<form action="'. $this->action .'" method="'. $this->method .'" id="'. $this->name.'" enctype="multipart/form-data">';
 		$start .= '<input type="hidden" name="token" value="' . $_SESSION['token'] . '"/>';
 
-		if($this->validation) {
+		if($this->js) {
 				$start .= $this->javascript();
 		}
 
@@ -95,12 +133,18 @@ class Form extends Validation  {
 			    exit;
 			} else {
 
+			if(!$this->validate()) {
+				return false;
+			}
+
 			$submission = new Submission($data);
 			$result = $submission->save();
 
 			if(!$result) {
 				$this->errors = $submission->errors;
 			}
+
+			return $result;
 		}
 	}
 

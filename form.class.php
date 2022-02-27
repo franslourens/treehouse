@@ -32,7 +32,11 @@ class Form extends Validation  {
 
 	}
 
-	public function validate() {
+	public function validate($js = false) {
+			if($js) {
+				return true;	
+			}
+		
 			$validation = $this->validation["rules"];
 
 			$rules = array();
@@ -133,7 +137,7 @@ class Form extends Validation  {
 			    exit;
 			} else {
 
-			if(!$this->validate()) {
+			if(!$this->validate($this->js)) {
 				return false;
 			}
 

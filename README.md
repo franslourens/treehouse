@@ -10,3 +10,5 @@ CREATE TABLE `newsletter` (
    UNIQUE KEY `email_UNIQUE` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 ```
+
+treehouse.franslourens.co.za
